@@ -1,0 +1,56 @@
+<html>
+<head>
+  <title>Friends</title>
+</head>
+<body>
+  <h1>These are all my friends!</h1>
+  {% for friend in friends: %}
+  <p>First Name: {{friend['first_name']}}</p>
+  <p>Last Name: {{friend['last_name']}}</p>
+  <p>Occupation: {{friend['occupation']}}</p>
+  <form action='/friends/{{friend['id']}}/edit'>
+    <input type="submit" value="edit">
+  </form>
+  <form action='/friends/{{friend['id']}}/delete' method='POST'>
+    <input type="submit" value="delete">
+  </form>
+  <hr>
+  {% endfor %}
+  <h2>Add a Friend</h2>
+  <form action='/friends' method='POST'>
+    {% with errors = get_flashed_messages(category_filter=["firstNameError"]) %}
+        {% if errors %}
+        <div class="error">
+          {%- for msg in errors %}
+          <p>{{ msg }}</p>
+          {% endfor -%}
+        </div>
+        {% endif %}
+    {% endwith %}
+    <label for="first_name">First Name:<input type="text" name="first_name" id="first_name"></label>
+    {% with errors = get_flashed_messages(category_filter=["lastNameError"]) %}
+        {% if errors %}
+        <div class="error">
+          {%- for msg in errors %}
+          <p>{{ msg }}</p>
+          {% endfor -%}
+        </div>
+        {% endif %}
+    {% endwith %}
+    <label for="last_name">Last Name:<input type="text" name="last_name" id="last_name"></label>
+    {% with errors = get_flashed_messages(category_filter=["occupationError"]) %}
+        {% if errors %}
+        <div class="error">
+          {%- for msg in errors %}
+          <p>{{ msg }}</p>
+          {% endfor -%}
+        </div>
+        {% endif %}
+    {% endwith %}
+    <label for="email">Email:<input type="text" name="email" id="email"></label>
+    <label for="password">Password:<input type="password" name="password" id="password"></label>
+    <label for="password">Confirm Password:<input type="password" name="confirmPassword" id="password"></label>
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>
